@@ -150,4 +150,27 @@ module data_path(
                       .inZ (inZ), .LoadX (LoadX), 
                       .stat1 (stat1), .LoadZ (LoadZ),
                       .subtract (subtract));
+    
+     //register f3
+    eightbit_flip_flop f3(alu_output, LoadX, ClrX, clk, out);
+
+    //register f4
+    wire [7:0]input_four, outY;
+    assign input_four = 4;
+
+    eightbit_flip_flop f4(input_four, LoadY, 1'b0, clk, outY);
+
+    //register f5
+    wire [7:0]m1_output, f5_output;
+    mux mux1(inpt, alu_output, inZ, m1_output);
+
+    eightbit_flip_flop f5(m1_output, LoadZ, 1'b0, clk, f5_output);
+
+    //subtraction logic
+    mux mux2(out, f5_output, stat1, m2_output);
+    mux mux3(outY, 1'b1, stat1, m3_output);
+
+    alu addsub(m2_output, m3_output, subtract, alu_output);
+
+
 endmodule
