@@ -133,3 +133,21 @@ module control_unit(
     assign subtract = w2 & w5;
 
 endmodule
+
+//module for the data path of the micrprocessor
+module data_path(
+    input [7:0]inpt, 
+    //input Z,
+    input clk, reset,
+    output [7:0]out
+    );
+
+    wire inZ, LoadX, ClrX, LoadY, LoadZ, stat1, subtract;
+    wire [7:0]m2_output, m3_output, alu_output;
+
+    //instantiate control unit module to use the outputs and wire them as inputs of the data path module
+    control_unit inst(.Z (Z), .clk (clk), .reset (reset), .ClrX (ClrX), .LoadY (LoadY),
+                      .inZ (inZ), .LoadX (LoadX), 
+                      .stat1 (stat1), .LoadZ (LoadZ),
+                      .subtract (subtract));
+endmodule
