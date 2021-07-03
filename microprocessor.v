@@ -45,6 +45,24 @@ module flip_flop(
     
 endmodule
 
+//8-bit d flip flop register module
+module eightbit_flip_flop(
+    input [7:0]d,
+    input load, reset, clk,
+    output reg [7:0]Q
+    );
+
+    //positive edge clock
+    always @(posedge clk or posedge load)
+    begin
+        if(reset == 1'b1)
+        Q <= 8'b00000000;
+        else if((reset == 1'b0) && (load == 1'b1))
+        Q <= d;
+    end
+
+endmodule
+
 //module for adding and subtracting
 module alu(
     input [7:0]a, b,
