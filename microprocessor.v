@@ -81,5 +81,55 @@ module alu(
 
 endmodule
 
-module control_unit();
+//module for the control unit of the micrprocessor
+module control_unit(
+    input Z, clk, reset,
+    output ClrX, LoadY, inZ, LoadX, stat1, LoadZ, subtract
+    );
+
+    wire w1, w2, w3, w4, w5;
+
+    //Z is 0
+    assign Z = 1'b0;
+
+    //invert the input
+    assign w1 = ~Z;
+
+    //first OR gate
+    wire or1;
+    //assign or1 = w4 | w1;
+    or_gate OR_1(w4, w1, or1);
+
+    //second OR gate
+    wire or2;
+    or_gate OR_2(w2, w5, or2);
+
+    //flip flop one 
+    //when clear is high '1' Q1 would be 0 and Q1' would be 1
+    wire Q1_prime;
+    flip_flop f1(or1, clk, reset, w2);
+    assign Q1_prime = ~w2;
+
+    assign w3 = Q1_prime;
+
+    //flip flop two
+    //when clear is high'1' Q0 would be 0 and Q0' would be 1
+    wire Q0_prime;
+    flip_flop f2(or2, clk, reset, w4);
+    assign Q0_prime = ~w4;
+
+    assign w5 = Q0_prime;
+
+    //output gates
+    assign ClrX = w3 & w5;
+    assign LoadY = w3 & w5;
+    assign inZ = w3 & w5;
+
+    assign LoadX = w3 & w4; 
+    assign stat1 = w3 & w4;
+ 
+    assign LoadZ = w5;
+ 
+    assign subtract = w2 & w5;
+
 endmodule
