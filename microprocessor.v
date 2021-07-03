@@ -45,5 +45,23 @@ module flip_flop(
     
 endmodule
 
+//module for adding and subtracting
+module alu(
+    input [7:0]a, b,
+    input s,
+    output reg [7:0]out
+    );
+
+    always @(*)
+    begin
+        //if subtract is high '1' subtract a from b, else add a and b
+        case(s)
+        1'b1: out <= a - b;
+        1'b0: out <= a + b;
+        endcase
+    end
+
+endmodule
+
 module control_unit();
 endmodule
