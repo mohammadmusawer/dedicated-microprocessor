@@ -28,5 +28,22 @@ module mux(
 
 endmodule
 
+//flip flop module
+module flip_flop(
+    input d, clk, reset,
+    output reg Q
+    );
+
+    //positive edge clock
+    always @(posedge clk)
+    begin
+        if(reset == 1'b1)
+        Q <= 1'b0;
+        else
+        Q = d;
+    end
+    
+endmodule
+
 module control_unit();
 endmodule
